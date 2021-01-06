@@ -22,6 +22,10 @@ const SpruceEntangle = {
                 return {
                     isDeferred: defer,
                     livewireEntangle: name,
+                    get defer() {
+                        this.isDeferred = true
+                        return this
+                    },
                 }
             }
         })
