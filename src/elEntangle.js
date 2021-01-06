@@ -1,13 +1,22 @@
 export const elEntangle = {
     alpineEl: null,
 
+    ensureStoreMissing(storeName) {
+        if (!!Spruce.store(storeName)) {
+            throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" is already registered. Use loadStore.')
+        }
+    },
+
+    ensureStoreExists(storeName) {
+        if (!Spruce.store(storeName)) {
+            throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" is not registered. Use registerStore.')
+        }
+    },
+
     registerStore(storeName, state) {
         // Check if store exists
         console.log('Check Exists', Spruce.store(storeName), !!Spruce.store(storeName))
-        if (Spruce.store(storeName)) {
-            throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" is already registered. Use loadStore.')
-            return
-        }
+        this.ensureStoreMissing()
 
         // Register store
         console.log('Register Store', storeName, state)
@@ -65,10 +74,7 @@ export const elEntangle = {
     loadStore(storeName, state) {
         // Check if store doesn't exist
         console.log('Check Does Not Exist', Spruce.store(storeName), !!Spruce.store(storeName))
-        if (!Spruce.store(storeName)) {
-            throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" is not registered. Use registerStore.')
-            return
-        }
+        this.ensureStoreExists()
 
         // Find Livewire component
         console.log('Find Livewire Component')
