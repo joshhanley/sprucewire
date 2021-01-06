@@ -15,7 +15,7 @@
   "unpkg": "dist/sprucewire.umd.js",
   "scripts": {
     "build": "microbundle",
-    "dev": "microbundle watch"
+    "watch": "microbundle watch"
   },
   "devDependencies": {
     "microbundle": "^0.13.0"

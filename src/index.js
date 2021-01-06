@@ -53,4 +53,4 @@ window.deferLoadingAlpine = function (callback) {
     deferrer(callback)
 }
 
-// export default Sprucewire
+export default Sprucewire
