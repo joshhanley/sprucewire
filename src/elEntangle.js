@@ -1,5 +1,8 @@
 export const elEntangle = {
     alpineEl: null,
+    livewireComponent: null,
+    storeName: null,
+    store: null,
 
     ensureStoreMissing(storeName) {
         if (!!Spruce.store(storeName)) {
@@ -13,123 +16,165 @@ export const elEntangle = {
         }
     },
 
+    createStore(storeName, state) {
+        // Remove any values that are entangle objects from the state before assigning
+        this.store = Spruce.store(storeName, this.clearEntangleValues(state))
+        this.storeName = storeName
+    },
+
+    clearEntangleValues(state) {
+        // This removes any entangle objects from the state
+        return Object.keys(state).reduce((result, key) => {
+            result[key] = this.isEntangleObject(state[key]) ? null : state[key]
+            return result
+        }, {})
+    },
+
+    findStore(storeName) {
+        this.store = Spruce.store(storeName)
+        this.storeName = storeName
+    },
+
+    findLivewireComponent() {
+        let livewireEl = this.alpineEl.closest('[wire\\:id]')
+
+        if (livewireEl && livewireEl.__livewire) {
+            this.livewireComponent = livewireEl.__livewire
+        }
+    },
+
+    livewireComponentNotLoaded() {
+        return !this.livewireComponent
+    },
+
+    ensureStorePropertyExists(property) {
+        if (!this.store[property]) throw new Error('[Spruce Entangle] Spruce store "' + this.storeName + '" does not have property "' + property + '".')
+    },
+
+    getLivewireProperty(property) {
+        return this.livewireComponent.getPropertyValueIncludingDefers(property)
+    },
+
+    getStoreProperty(property) {
+        return this.store[property]
+    },
+
+    clonePropertyValue(value) {
+        // Use stringify and parse as a hack to deep clone
+        return typeof value !== 'undefined' ? JSON.parse(JSON.stringify(value)) : value
+    },
+
+    valuesAreEqual(value1, value2) {
+        // Due to the deep clone using stringify, we need to do the same here to compare.
+        return JSON.stringify(value1) === JSON.stringify(value2)
+    },
+
+    setLivewireProperty(property, value, isDeferred) {
+        // Ensure data is deep cloned when set
+        this.livewireComponent.set(property, this.clonePropertyValue(value), isDeferred)
+    },
+
+    setStoreProperty(property, value) {
+        // Ensure data is deep cloned when set
+        this.store[property] = this.clonePropertyValue(value)
+    },
+
+    isEntangleObject(value) {
+        return value && typeof value === 'object' && value.livewireEntangle
+    },
+
+    shouldNotEntangle(value) {
+        return !this.isEntangleObject(value)
+    },
+
     registerStore(storeName, state) {
         // Check if store exists
-        console.log('Check Exists', Spruce.store(storeName), !!Spruce.store(storeName))
         this.ensureStoreMissing(storeName)
 
         // Register store
-        console.log('Register Store', storeName, state)
-        Spruce.store(storeName, state)
+        this.createStore(storeName, state)
 
         // Find Livewire component
-        console.log('Find Livewire Component')
-        let livewireEl = this.alpineEl.closest('[wire\\:id]')
+        this.findLivewireComponent()
+        if (this.livewireComponentNotLoaded()) return
 
-        if (!livewireEl || !livewireEl.__livewire) return
-        console.log('Livewire Component Found')
-
-        // Loop through store properties
-        Object.entries(Spruce.store(storeName)).forEach(([propertyName, value]) => {
+        // Loop through state properties
+        Object.entries(state).forEach(([storeProperty, stateValue]) => {
             // Check if we are entangling value
-            if (!value || typeof value !== 'object' || !value.livewireEntangle) return
-            console.log('Property', propertyName, value)
+            if (this.shouldNotEntangle(stateValue)) return
 
-            let livewireProperty = value.livewireEntangle
-            let isDeferred = value.isDeferred
-            let livewireComponent = livewireEl.__livewire
+            let livewireProperty = stateValue.livewireEntangle
+            let isDeferred = stateValue.isDeferred
 
             // Set initial value of spruce store property to Livewire properties value
-            console.log('Livewire Property Value', JSON.parse(JSON.stringify(livewireEl.__livewire.get(livewireProperty))))
-            Spruce.store(storeName)[propertyName] = JSON.parse(JSON.stringify(livewireEl.__livewire.get(livewireProperty)))
-            console.log('Property Value', Spruce.store(storeName)[propertyName])
+            this.setStoreProperty(storeProperty, this.getLivewireProperty(livewireProperty))
 
             // Register spruce watcher
-            Spruce.watch(storeName + '.' + propertyName, (value) => {
-                console.log('Spruce Watcher', value)
-
-                // Check if Spruce and Livewire are the same and if so, then return
-                // - This prevents a circular dependancy with the other watcher below.
-                // - Due to the deep clone using stringify, we need to do the same here to compare.
-                if (JSON.stringify(value) === JSON.stringify(livewireEl.__livewire.getPropertyValueIncludingDefers(livewireProperty))) return
-
-                console.log('Spruce Not Equal')
+            Spruce.watch(storeName + '.' + storeProperty, (value) => {
+                // Check if new Spruce value and Livewire are the same and if so, then return to prevent a circular dependancy with other watcher.
+                if (this.valuesAreEqual(value, this.getLivewireProperty(livewireProperty))) return
 
                 //Update Livewire property
-                livewireComponent.set(livewireProperty, value, isDeferred)
+                this.setLivewireProperty(livewireProperty, value, isDeferred)
             })
 
             // Register livewire watcher
-            livewireComponent.watch(livewireProperty, (value) => {
-                console.log('Livewire Watcher', value)
+            this.livewireComponent.watch(livewireProperty, (value) => {
+                // Check if Spruce and new Livewire value are the same and if so, then return to prevent a circular dependancy with other watcher.
+                if (this.valuesAreEqual(value, this.getStoreProperty(storeProperty))) return
+
                 // Update Spruce store property
-                // Ensure data is deep cloned otherwise Spruce mutates Livewire data
-                Spruce.store(storeName)[propertyName] = typeof value !== 'undefined' ? JSON.parse(JSON.stringify(value)) : value
+                this.setStoreProperty(storeProperty, value)
             })
         })
-
-        console.log(Spruce.store(storeName))
     },
 
     loadStore(storeName, state) {
         // Check if store doesn't exist
-        console.log('Check Does Not Exist', Spruce.store(storeName), !!Spruce.store(storeName))
         this.ensureStoreExists(storeName)
 
-        // Find Livewire component
-        console.log('Find Livewire Component')
-        let livewireEl = this.alpineEl.closest('[wire\\:id]')
+        // Find store
+        this.findStore(storeName)
 
-        if (!livewireEl || !livewireEl.__livewire) return
-        console.log('Livewire Component Found')
+        // Find Livewire component
+        this.findLivewireComponent()
+        if (this.livewireComponentNotLoaded()) return
 
         // Loop through state properties
-        Object.entries(state).forEach(([propertyName, value]) => {
-            console.log('Loop Store', propertyName, value)
+        Object.entries(state).forEach(([storeProperty, stateValue]) => {
+            // Check if we are entangling value
+            if (this.shouldNotEntangle(stateValue)) return
 
             // Check if store property exists
-            if (!Spruce.store(storeName)[propertyName]) throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" does not have property "' + propertyName + '".')
+            this.ensureStorePropertyExists(storeProperty)
 
-            // Check if we are entangling value
-            if (!value || typeof value !== 'object' || !value.livewireEntangle) return
-            console.log('Property', propertyName, value)
-
-            let livewireProperty = value.livewireEntangle
-            let isDeferred = value.isDeferred
-            let livewireComponent = livewireEl.__livewire
+            let livewireProperty = stateValue.livewireEntangle
+            let isDeferred = stateValue.isDeferred
 
             // Set initial value of Livewire property to Spruce store properties value if they are different
-            console.log('Spruce Property Value', JSON.parse(JSON.stringify(Spruce.store(storeName)[propertyName])))
-            // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
-            if (JSON.stringify(Spruce.store(storeName)[propertyName]) !== JSON.stringify(livewireEl.__livewire.getPropertyValueIncludingDefers(livewireProperty))) {
-                livewireComponent.set(livewireProperty, JSON.parse(JSON.stringify(Spruce.store(storeName)[propertyName])), isDeferred)
+            if (!this.valuesAreEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
+                // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
+                this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty))
             }
-            console.log('Property Value', livewireEl.__livewire.getPropertyValueIncludingDefers(livewireProperty))
 
             // Register spruce watcher
-            Spruce.watch(storeName + '.' + propertyName, (value) => {
-                console.log('Spruce Watcher', value)
-
-                // Check if Spruce and Livewire are the same and if so, then return
-                // - This prevents a circular dependancy with the other watcher below.
-                // - Due to the deep clone using stringify, we need to do the same here to compare.
-                if (JSON.stringify(value) === JSON.stringify(livewireEl.__livewire.getPropertyValueIncludingDefers(livewireProperty))) return
-
-                console.log('Spruce Not Equal')
+            Spruce.watch(storeName + '.' + storeProperty, (value) => {
+                // Check if new Spruce value and Livewire are the same and if so, then return to prevent a circular dependancy with other watcher.
+                if (this.valuesAreEqual(value, this.getLivewireProperty(livewireProperty))) return
 
                 //Update Livewire property
-                livewireComponent.set(livewireProperty, value, isDeferred)
+                this.setLivewireProperty(livewireProperty, value, isDeferred)
             })
 
             // Register livewire watcher
-            livewireComponent.watch(livewireProperty, (value) => {
+            this.livewireComponent.watch(livewireProperty, (value) => {
                 console.log('Livewire Watcher', value)
+                // Check if Spruce and new Livewire value are the same and if so, then return to prevent a circular dependancy with other watcher.
+                if (this.valuesAreEqual(value, this.getStoreProperty(storeProperty))) return
+
                 // Update Spruce store property
-                // Ensure data is deep cloned otherwise Spruce mutates Livewire data
-                Spruce.store(storeName)[propertyName] = typeof value !== 'undefined' ? JSON.parse(JSON.stringify(value)) : value
+                this.setStoreProperty(storeProperty, value)
             })
         })
-
-        console.log(Spruce.store(storeName))
     },
 }
