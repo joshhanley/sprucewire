@@ -21,6 +21,7 @@ export const elEntangle = {
             if (this.isNotEntangleObject(entangleObject)) return
 
             let livewireProperty = entangleObject.livewireEntangle
+            let isDeferred = entangleObject.isDeferred
 
             // Set initial value of spruce store property to Livewire properties value if they are different
             if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
@@ -28,7 +29,7 @@ export const elEntangle = {
             }
 
             // Register spruce watcher
-            this.registerSpruceWatcher(storeProperty, livewireProperty, entangleObject.isDeferred)
+            this.registerSpruceWatcher(storeProperty, livewireProperty, isDeferred)
 
             // Register livewire watcher
             this.registerLivewireWatcher(livewireProperty, storeProperty)
@@ -55,15 +56,16 @@ export const elEntangle = {
             this.ensureStorePropertyExists(storeProperty)
 
             let livewireProperty = entangleObject.livewireEntangle
+            let isDeferred = entangleObject.isDeferred
 
             // Set initial value of Livewire property to Spruce store properties value if they are different
             // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
             if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
-                this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty))
+                this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty), isDeferred)
             }
 
             // Register spruce watcher
-            this.registerSpruceWatcher(storeProperty, livewireProperty, entangleObject.isDeferred)
+            this.registerSpruceWatcher(storeProperty, livewireProperty, isDeferred)
 
             // Register livewire watcher
             this.registerLivewireWatcher(livewireProperty, storeProperty)
