@@ -1,18 +1,18 @@
 {
-  "name": "@joshhanley/spruce-entangle",
+  "name": "@joshhanley/sprucewire",
   "version": "1.0.0",
-  "description": "An adapter for Spruce and Livewire",
+  "description": "An adapter enabling Livewire and Spruce to be entangled",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joshhanley/spruce-entangle.git"
+    "url": "git+https://github.com/joshhanley/sprucewire.git"
   },
   "author": "Josh Hanley",
   "license": "MIT",
   "source": "src/index.js",
-  "main": "dist/spruce-entangle.js",
-  "exports": "dist/spruce-entangle.modern.js",
-  "module": "dist/spruce-entangle.module.js",
-  "unpkg": "dist/spruce-entangle.umd.js",
+  "main": "dist/sprucewire.js",
+  "exports": "dist/sprucewire.modern.js",
+  "module": "dist/sprucewire.module.js",
+  "unpkg": "dist/sprucewire.umd.js",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch"

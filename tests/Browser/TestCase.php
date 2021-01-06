@@ -1,13 +1,13 @@
 <?php
 
-namespace SpruceEntangle\Tests\Browser;
+namespace Sprucewire\Tests\Browser;
 
 use LivewireDusk\TestCase as LivewireDuskTestCase;
 
 class TestCase extends LivewireDuskTestCase
 {
     public $packageProviders = [
-        SpruceEntangleTestServiceProvider::class,
+        SprucewireTestServiceProvider::class,
     ];
 
     public function configureViewsDirectory()

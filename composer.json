@@ -1,5 +1,5 @@
 {
-    "name": "joshhanley/spruce-entangle",
+    "name": "joshhanley/sprucewire",
     "description": "An adapter enabling Livewire and Spruce to be entangled",
     "license": "MIT",
     "authors": [
@@ -19,7 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SpruceEntangle\\Tests\\": "tests/"
+            "Sprucewire\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

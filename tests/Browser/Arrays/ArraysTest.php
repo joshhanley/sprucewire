@@ -1,10 +1,10 @@
 <?php
 
-namespace SpruceEntangle\Tests\Browser\Arrays;
+namespace Sprucewire\Tests\Browser\Arrays;
 
 use Laravel\Dusk\Browser;
 use Livewire\Livewire;
-use SpruceEntangle\Tests\Browser\TestCase;
+use Sprucewire\Tests\Browser\TestCase;
 
 class ArraysTest extends TestCase
 {
@@ -13,7 +13,7 @@ class ArraysTest extends TestCase
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, ArraysComponent::class)
-                    ->pause(30000)
+                    ->pause(300000)
                     ;
         });
     }

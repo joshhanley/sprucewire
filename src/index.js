@@ -1,6 +1,6 @@
 import { elEntangle } from './elEntangle'
 
-const SpruceEntangle = {
+const Sprucewire = {
     start() {
         console.log('start')
         this.attach()
@@ -11,8 +11,8 @@ const SpruceEntangle = {
 
         const self = this
 
-        window.Alpine.addMagicProperty('spruceEntangle', (el) => {
-            console.log('Spruce Entangle')
+        window.Alpine.addMagicProperty('sprucewire', (el) => {
+            console.log('Sprucewire')
 
             return this.getElEntangle(el)
         })
@@ -32,9 +32,9 @@ const SpruceEntangle = {
     },
 
     checkDependencies() {
-        if (!window.Alpine) throw new Error('[Spruce Entangle] Alpine must be running.')
+        if (!window.Alpine) throw new Error('[Sprucewire] Alpine must be running.')
 
-        if (!window.Spruce) throw new Error('[Spruce Entangle] Spruce must be running.')
+        if (!window.Spruce) throw new Error('[Sprucewire] Spruce must be running.')
 
         return true
     },
@@ -52,7 +52,7 @@ const SpruceEntangle = {
     },
 }
 
-window.SpruceEntangle = SpruceEntangle
+window.Sprucewire = Sprucewire
 
 const deferrer =
     window.deferLoadingAlpine ||
@@ -61,9 +61,9 @@ const deferrer =
     }
 
 window.deferLoadingAlpine = function (callback) {
-    window.SpruceEntangle.start()
+    window.Sprucewire.start()
 
     deferrer(callback)
 }
 
-// export default SpruceEntangle
+// export default Sprucewire

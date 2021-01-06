@@ -74,13 +74,13 @@ export const elEntangle = {
 
     ensureStoreMissing(storeName) {
         if (!!Spruce.store(storeName)) {
-            throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" is already registered. Use loadStore.')
+            throw new Error('[Sprucewire] Spruce store "' + storeName + '" is already registered. Use loadStore.')
         }
     },
 
     ensureStoreExists(storeName) {
         if (!Spruce.store(storeName)) {
-            throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" is not registered. Use registerStore.')
+            throw new Error('[Sprucewire] Spruce store "' + storeName + '" is not registered. Use registerStore.')
         }
     },
 
@@ -124,7 +124,7 @@ export const elEntangle = {
     },
 
     ensureStorePropertyExists(property) {
-        if (!this.store[property]) throw new Error('[Spruce Entangle] Spruce store "' + this.storeName + '" does not have property "' + property + '".')
+        if (!this.store[property]) throw new Error('[Sprucewire] Spruce store "' + this.storeName + '" does not have property "' + property + '".')
     },
 
     getLivewireProperty(property) {

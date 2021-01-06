@@ -1,6 +1,6 @@
 <?php
 
-namespace SpruceEntangle\Tests\Browser\Arrays;
+namespace Sprucewire\Tests\Browser\Arrays;
 
 use Livewire\Component;
 

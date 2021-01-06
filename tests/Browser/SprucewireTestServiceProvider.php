@@ -1,16 +1,16 @@
 <?php
 
-namespace SpruceEntangle\Tests\Browser;
+namespace Sprucewire\Tests\Browser;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route as RouteFacade;
 
-class SpruceEntangleTestServiceProvider extends ServiceProvider
+class SprucewireTestServiceProvider extends ServiceProvider
 {
     public function register()
     {
         if ($this->app->runningUnitTests()) {
-            RouteFacade::get('/spruce-entangle.js', [SpruceEntangleAssets::class, 'source']);
+            RouteFacade::get('/sprucewire.js', [SprucewireAssets::class, 'source']);
         }
     }
 }
