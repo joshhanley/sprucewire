@@ -4,6 +4,72 @@ export const elEntangle = {
     storeName: null,
     store: null,
 
+    registerStore(storeName, state) {
+        // Check if store exists
+        this.ensureStoreMissing(storeName)
+
+        // Register store
+        this.createStore(storeName, state)
+
+        // Find Livewire component
+        this.findLivewireComponent()
+        if (this.livewireComponentNotLoaded()) return
+
+        // Loop through state properties
+        Object.entries(state).forEach(([storeProperty, entangleObject]) => {
+            // Check if we are entangling value
+            if (this.isNotEntangleObject(entangleObject)) return
+
+            let livewireProperty = entangleObject.livewireEntangle
+
+            // Set initial value of spruce store property to Livewire properties value if they are different
+            if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
+                this.setStoreProperty(storeProperty, this.getLivewireProperty(livewireProperty))
+            }
+
+            // Register spruce watcher
+            this.registerSpruceWatcher(storeProperty, livewireProperty, entangleObject.isDeferred)
+
+            // Register livewire watcher
+            this.registerLivewireWatcher(livewireProperty, storeProperty)
+        })
+    },
+
+    loadStore(storeName, state) {
+        // Check if store doesn't exist
+        this.ensureStoreExists(storeName)
+
+        // Find store
+        this.findStore(storeName)
+
+        // Find Livewire component
+        this.findLivewireComponent()
+        if (this.livewireComponentNotLoaded()) return
+
+        // Loop through state properties
+        Object.entries(state).forEach(([storeProperty, entangleObject]) => {
+            // Check if we are entangling value
+            if (this.isNotEntangleObject(entangleObject)) return
+
+            // Check if store property exists
+            this.ensureStorePropertyExists(storeProperty)
+
+            let livewireProperty = entangleObject.livewireEntangle
+
+            // Set initial value of Livewire property to Spruce store properties value if they are different
+            // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
+            if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
+                this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty))
+            }
+
+            // Register spruce watcher
+            this.registerSpruceWatcher(storeProperty, livewireProperty, entangleObject.isDeferred)
+
+            // Register livewire watcher
+            this.registerLivewireWatcher(livewireProperty, storeProperty)
+        })
+    },
+
     ensureStoreMissing(storeName) {
         if (!!Spruce.store(storeName)) {
             throw new Error('[Spruce Entangle] Spruce store "' + storeName + '" is already registered. Use loadStore.')
@@ -23,7 +89,7 @@ export const elEntangle = {
     },
 
     clearEntangleValues(state) {
-        // This removes any entangle objects from the state
+        // Duplicate state and remove any entangle objects and set with null
         return Object.keys(state).reduce((result, key) => {
             result[key] = this.isEntangleObject(state[key]) ? null : state[key]
             return result
@@ -47,6 +113,14 @@ export const elEntangle = {
         return !this.livewireComponent
     },
 
+    isEntangleObject(value) {
+        return value && typeof value === 'object' && value.livewireEntangle
+    },
+
+    isNotEntangleObject(value) {
+        return !this.isEntangleObject(value)
+    },
+
     ensureStorePropertyExists(property) {
         if (!this.store[property]) throw new Error('[Spruce Entangle] Spruce store "' + this.storeName + '" does not have property "' + property + '".')
     },
@@ -59,7 +133,17 @@ export const elEntangle = {
         return this.store[property]
     },
 
-    clonePropertyValue(value) {
+    setLivewireProperty(property, value, isDeferred) {
+        // Ensure data is deep cloned when set
+        this.livewireComponent.set(property, this.cloneValue(value), isDeferred)
+    },
+
+    setStoreProperty(property, value) {
+        // Ensure data is deep cloned when set
+        this.store[property] = this.cloneValue(value)
+    },
+
+    cloneValue(value) {
         // Use stringify and parse as a hack to deep clone
         return typeof value !== 'undefined' ? JSON.parse(JSON.stringify(value)) : value
     },
@@ -71,24 +155,6 @@ export const elEntangle = {
 
     valuesAreNotEqual(value1, value2) {
         return !this.valuesAreEqual(value1, value2)
-    },
-
-    setLivewireProperty(property, value, isDeferred) {
-        // Ensure data is deep cloned when set
-        this.livewireComponent.set(property, this.clonePropertyValue(value), isDeferred)
-    },
-
-    setStoreProperty(property, value) {
-        // Ensure data is deep cloned when set
-        this.store[property] = this.clonePropertyValue(value)
-    },
-
-    isEntangleObject(value) {
-        return value && typeof value === 'object' && value.livewireEntangle
-    },
-
-    shouldNotEntangle(value) {
-        return !this.isEntangleObject(value)
     },
 
     registerSpruceWatcher(storeProperty, livewireProperty, isDeferred) {
@@ -108,72 +174,6 @@ export const elEntangle = {
 
             // Update Spruce store property
             this.setStoreProperty(storeProperty, value)
-        })
-    },
-
-    registerStore(storeName, state) {
-        // Check if store exists
-        this.ensureStoreMissing(storeName)
-
-        // Register store
-        this.createStore(storeName, state)
-
-        // Find Livewire component
-        this.findLivewireComponent()
-        if (this.livewireComponentNotLoaded()) return
-
-        // Loop through state properties
-        Object.entries(state).forEach(([storeProperty, stateValue]) => {
-            // Check if we are entangling value
-            if (this.shouldNotEntangle(stateValue)) return
-
-            let livewireProperty = stateValue.livewireEntangle
-
-            // Set initial value of spruce store property to Livewire properties value if they are different
-            if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
-                this.setStoreProperty(storeProperty, this.getLivewireProperty(livewireProperty))
-            }
-
-            // Register spruce watcher
-            this.registerSpruceWatcher(storeProperty, livewireProperty, stateValue.isDeferred)
-
-            // Register livewire watcher
-            this.registerLivewireWatcher(livewireProperty, storeProperty)
-        })
-    },
-
-    loadStore(storeName, state) {
-        // Check if store doesn't exist
-        this.ensureStoreExists(storeName)
-
-        // Find store
-        this.findStore(storeName)
-
-        // Find Livewire component
-        this.findLivewireComponent()
-        if (this.livewireComponentNotLoaded()) return
-
-        // Loop through state properties
-        Object.entries(state).forEach(([storeProperty, stateValue]) => {
-            // Check if we are entangling value
-            if (this.shouldNotEntangle(stateValue)) return
-
-            // Check if store property exists
-            this.ensureStorePropertyExists(storeProperty)
-
-            let livewireProperty = stateValue.livewireEntangle
-
-            // Set initial value of Livewire property to Spruce store properties value if they are different
-            // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
-            if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
-                this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty))
-            }
-
-            // Register spruce watcher
-            this.registerSpruceWatcher(storeProperty, livewireProperty, stateValue.isDeferred)
-
-            // Register livewire watcher
-            this.registerLivewireWatcher(livewireProperty, storeProperty)
         })
     },
 }
