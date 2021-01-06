@@ -69,6 +69,10 @@ export const elEntangle = {
         return JSON.stringify(value1) === JSON.stringify(value2)
     },
 
+    valuesAreNotEqual(value1, value2) {
+        return !this.valuesAreEqual(value1, value2)
+    },
+
     setLivewireProperty(property, value, isDeferred) {
         // Ensure data is deep cloned when set
         this.livewireComponent.set(property, this.clonePropertyValue(value), isDeferred)
@@ -85,6 +89,26 @@ export const elEntangle = {
 
     shouldNotEntangle(value) {
         return !this.isEntangleObject(value)
+    },
+
+    registerSpruceWatcher(storeProperty, livewireProperty, isDeferred) {
+        Spruce.watch(this.storeName + '.' + storeProperty, (value) => {
+            // Check if new Spruce value and Livewire are the same and if so, then return to prevent a circular dependancy with other watcher.
+            if (this.valuesAreEqual(value, this.getLivewireProperty(livewireProperty))) return
+
+            //Update Livewire property
+            this.setLivewireProperty(livewireProperty, value, isDeferred)
+        })
+    },
+
+    registerLivewireWatcher(livewireProperty, storeProperty) {
+        this.livewireComponent.watch(livewireProperty, (value) => {
+            // Check if Spruce and new Livewire value are the same and if so, then return to prevent a circular dependancy with other watcher.
+            if (this.valuesAreEqual(value, this.getStoreProperty(storeProperty))) return
+
+            // Update Spruce store property
+            this.setStoreProperty(storeProperty, value)
+        })
     },
 
     registerStore(storeName, state) {
@@ -104,28 +128,17 @@ export const elEntangle = {
             if (this.shouldNotEntangle(stateValue)) return
 
             let livewireProperty = stateValue.livewireEntangle
-            let isDeferred = stateValue.isDeferred
 
-            // Set initial value of spruce store property to Livewire properties value
-            this.setStoreProperty(storeProperty, this.getLivewireProperty(livewireProperty))
+            // Set initial value of spruce store property to Livewire properties value if they are different
+            if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
+                this.setStoreProperty(storeProperty, this.getLivewireProperty(livewireProperty))
+            }
 
             // Register spruce watcher
-            Spruce.watch(storeName + '.' + storeProperty, (value) => {
-                // Check if new Spruce value and Livewire are the same and if so, then return to prevent a circular dependancy with other watcher.
-                if (this.valuesAreEqual(value, this.getLivewireProperty(livewireProperty))) return
-
-                //Update Livewire property
-                this.setLivewireProperty(livewireProperty, value, isDeferred)
-            })
+            this.registerSpruceWatcher(storeProperty, livewireProperty, stateValue.isDeferred)
 
             // Register livewire watcher
-            this.livewireComponent.watch(livewireProperty, (value) => {
-                // Check if Spruce and new Livewire value are the same and if so, then return to prevent a circular dependancy with other watcher.
-                if (this.valuesAreEqual(value, this.getStoreProperty(storeProperty))) return
-
-                // Update Spruce store property
-                this.setStoreProperty(storeProperty, value)
-            })
+            this.registerLivewireWatcher(livewireProperty, storeProperty)
         })
     },
 
@@ -149,32 +162,18 @@ export const elEntangle = {
             this.ensureStorePropertyExists(storeProperty)
 
             let livewireProperty = stateValue.livewireEntangle
-            let isDeferred = stateValue.isDeferred
 
             // Set initial value of Livewire property to Spruce store properties value if they are different
-            if (!this.valuesAreEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
-                // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
+            // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
+            if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
                 this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty))
             }
 
             // Register spruce watcher
-            Spruce.watch(storeName + '.' + storeProperty, (value) => {
-                // Check if new Spruce value and Livewire are the same and if so, then return to prevent a circular dependancy with other watcher.
-                if (this.valuesAreEqual(value, this.getLivewireProperty(livewireProperty))) return
-
-                //Update Livewire property
-                this.setLivewireProperty(livewireProperty, value, isDeferred)
-            })
+            this.registerSpruceWatcher(storeProperty, livewireProperty, stateValue.isDeferred)
 
             // Register livewire watcher
-            this.livewireComponent.watch(livewireProperty, (value) => {
-                console.log('Livewire Watcher', value)
-                // Check if Spruce and new Livewire value are the same and if so, then return to prevent a circular dependancy with other watcher.
-                if (this.valuesAreEqual(value, this.getStoreProperty(storeProperty))) return
-
-                // Update Spruce store property
-                this.setStoreProperty(storeProperty, value)
-            })
+            this.registerLivewireWatcher(livewireProperty, storeProperty)
         })
     },
 }
