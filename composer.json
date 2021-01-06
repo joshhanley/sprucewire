@@ -1,0 +1,27 @@
+{
+    "name": "joshhanley/spruce-entangle",
+    "description": "An adapter enabling Livewire and Spruce to be entangled",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Hanley",
+            "email": "josh@hitsystems.com.au"
+        }
+    ],
+    "require-dev": {
+        "josh/livewire-dusk": "dev-main"
+    },
+    "repositories": {
+        "livewire-dusk": {
+            "type": "path",
+            "url": "/Users/josh/Sites/livewire-dusk"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SpruceEntangle\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
