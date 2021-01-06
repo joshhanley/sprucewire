@@ -16,7 +16,7 @@ export const elEntangle = {
     registerStore(storeName, state) {
         // Check if store exists
         console.log('Check Exists', Spruce.store(storeName), !!Spruce.store(storeName))
-        this.ensureStoreMissing()
+        this.ensureStoreMissing(storeName)
 
         // Register store
         console.log('Register Store', storeName, state)
@@ -74,7 +74,7 @@ export const elEntangle = {
     loadStore(storeName, state) {
         // Check if store doesn't exist
         console.log('Check Does Not Exist', Spruce.store(storeName), !!Spruce.store(storeName))
-        this.ensureStoreExists()
+        this.ensureStoreExists(storeName)
 
         // Find Livewire component
         console.log('Find Livewire Component')
