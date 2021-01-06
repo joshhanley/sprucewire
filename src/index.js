@@ -16,19 +16,6 @@ const Sprucewire = {
 
             return this.getElEntangle(el)
         })
-
-        window.Alpine.addMagicProperty('entangleProperty', (el) => {
-            return function (name, defer = false) {
-                return {
-                    isDeferred: defer,
-                    livewireEntangle: name,
-                    get defer() {
-                        this.isDeferred = true
-                        return this
-                    },
-                }
-            }
-        })
     },
 
     checkDependencies() {

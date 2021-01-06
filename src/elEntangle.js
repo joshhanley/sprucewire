@@ -72,6 +72,17 @@ export const elEntangle = {
         })
     },
 
+    entangle(name, defer = false) {
+        return {
+            isDeferred: defer,
+            livewireEntangle: name,
+            get defer() {
+                this.isDeferred = true
+                return this
+            },
+        }
+    },
+
     ensureStoreMissing(storeName) {
         if (!!Spruce.store(storeName)) {
             throw new Error('[Sprucewire] Spruce store "' + storeName + '" is already registered. Use loadStore.')
