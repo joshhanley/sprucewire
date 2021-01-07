@@ -10,7 +10,7 @@ class SprucewireTestServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app->runningUnitTests()) {
-            RouteFacade::get('/sprucewire.js', [SprucewireAssets::class, 'source']);
+            RouteFacade::get('/sprucewire.umd.js', [SprucewireAssets::class, 'source']);
         }
     }
 }

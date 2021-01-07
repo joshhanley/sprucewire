@@ -10,6 +10,6 @@ class SprucewireAssets
 
     public function source()
     {
-        return $this->pretendResponseIsFile(__DIR__.'/../../dist/sprucewire.js');
+        return $this->pretendResponseIsFile(__DIR__.'/../../dist/sprucewire.umd.js');
     }
 }

@@ -12,7 +12,7 @@
 
     <livewire:scripts />
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@2.4.0/dist/spruce.umd.js"></script>
-    <script src="/sprucewire.js"></script>
+    <script src="/sprucewire.umd.js"></script>
 </body>
 
 </html>
