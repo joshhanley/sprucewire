@@ -13,7 +13,6 @@ class ScalarsTest extends TestCase
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, ScalarsComponent::class)
-                // ->pause(3000000000)
                     // Check all starting values are ok
                     ->assertSeeIn('@livewire-int-output', 1)
                     ->assertSeeIn('@livewire-string-output', 'string')
@@ -64,7 +63,6 @@ class ScalarsTest extends TestCase
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, ScalarsComponent::class)
-                // ->pause(3000000000)
                     // Check all starting values are ok
                     ->assertSeeIn('@livewire-int-output', 1)
                     ->assertSeeIn('@livewire-string-output', 'string')
@@ -114,7 +112,6 @@ class ScalarsTest extends TestCase
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, ScalarsComponent::class)
-                // ->pause(3000000000)
                     // Check all starting values are ok
                     ->assertSeeIn('@livewire-int-output', 1)
                     ->assertSeeIn('@livewire-string-output', 'string')
