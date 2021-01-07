@@ -4,3 +4,4 @@ package-lock.json
 /vendor/
 composer.lock
 .phpunit.result.cache
+database.sqlite
