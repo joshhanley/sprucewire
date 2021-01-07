@@ -23,6 +23,8 @@ To use this package you need to:
 - [Install Alpine](https://github.com/alpinejs/alpine#install)
 - [Install Spruce](https://docs.ryangjchandler.co.uk/spruce/installation) (but don't setup a store)
 
+**Make sure child components all have a key set**
+
 ## Limitations
 
 Entangling scalar properties or individual properties of a model property works.
