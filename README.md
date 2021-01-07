@@ -22,3 +22,11 @@ To use this package you need to:
 - [Install and configure Livewire](https://laravel-livewire.com/docs/2.x/installation)
 - [Install Alpine](https://github.com/alpinejs/alpine#install)
 - [Install Spruce](https://docs.ryangjchandler.co.uk/spruce/installation) (but don't setup a store)
+
+## Limitations
+
+Entangling scalar properties or individual properties of a model property works.
+
+There is a bug when binding arrays and collections, where if you try to add or remove from Spruce end, changes aren't replicated in Livewire.
+
+Collections and arrays work fine if changed from the Livewire end though.
