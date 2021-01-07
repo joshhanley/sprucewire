@@ -22,7 +22,7 @@ class SubComponentsTest extends TestCase
                     // Make changes from Livewire parent component
                     ->waitForLivewire()->type('@livewire-parent-name-input', 'S')
                     // Give child component time to catch up too
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'S')
                     ->assertSeeIn('@spruce-parent-name-output', 'S')
                     ->assertSeeIn('@livewire-child-name-output', 'S')
@@ -30,7 +30,7 @@ class SubComponentsTest extends TestCase
 
                     // Make changes from Livewire child component
                     ->waitForLivewire()->append('@livewire-child-name-input', 'q')
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'Sq')
                     ->assertSeeIn('@spruce-parent-name-output', 'Sq')
                     ->assertSeeIn('@livewire-child-name-output', 'Sq')
@@ -38,7 +38,7 @@ class SubComponentsTest extends TestCase
 
                     // Make changes from Spruce parent component
                     ->waitForLivewire()->append('@spruce-parent-name-input', 'u')
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'Squ')
                     ->assertSeeIn('@spruce-parent-name-output', 'Squ')
                     ->assertSeeIn('@livewire-child-name-output', 'Squ')
@@ -46,7 +46,7 @@ class SubComponentsTest extends TestCase
 
                     // Make changes from Spruce child component
                     ->waitForLivewire()->append('@spruce-child-name-input', 'i')
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'Squi')
                     ->assertSeeIn('@spruce-parent-name-output', 'Squi')
                     ->assertSeeIn('@livewire-child-name-output', 'Squi')
@@ -54,25 +54,25 @@ class SubComponentsTest extends TestCase
 
                     // Jumble up the order just to make sure still all ok
                     ->waitForLivewire()->append('@livewire-parent-name-input', 's')
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'Squis')
                     ->assertSeeIn('@spruce-parent-name-output', 'Squis')
                     ->assertSeeIn('@livewire-child-name-output', 'Squis')
                     ->assertSeeIn('@spruce-child-name-output', 'Squis')
                     ->waitForLivewire()->append('@spruce-child-name-input', 'h')
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'Squish')
                     ->assertSeeIn('@spruce-parent-name-output', 'Squish')
                     ->assertSeeIn('@livewire-child-name-output', 'Squish')
                     ->assertSeeIn('@spruce-child-name-output', 'Squish')
                     ->waitForLivewire()->append('@livewire-child-name-input', 'y')
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'Squishy')
                     ->assertSeeIn('@spruce-parent-name-output', 'Squishy')
                     ->assertSeeIn('@livewire-child-name-output', 'Squishy')
                     ->assertSeeIn('@spruce-child-name-output', 'Squishy')
                     ->waitForLivewire()->append('@spruce-parent-name-input', '!')
-                    ->pause(5)
+                    ->pause(50)
                     ->assertSeeIn('@livewire-parent-name-output', 'Squishy!')
                     ->assertSeeIn('@spruce-parent-name-output', 'Squishy!')
                     ->assertSeeIn('@livewire-child-name-output', 'Squishy!')
