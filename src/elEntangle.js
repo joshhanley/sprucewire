@@ -143,7 +143,14 @@ export const elEntangle = {
     },
 
     getStoreProperty(property) {
-        return this.cloneValue(this.store[property])
+        let value = this.cloneValue(this.store[property])
+
+        // Unset watchers if they exist to ensure they don't get sent to Livewire
+        if (value) {
+            delete value.__watchers
+        }
+
+        return value
     },
 
     setLivewireProperty(property, value, isDeferred) {
