@@ -49,7 +49,7 @@ class ArraysTest extends TestCase
     /** @test */
     public function it_can_add_and_remove_array_elements_from_spruce()
     {
-        $this->markTestSkipped('There is a bug when reassigning arrays to spruce where changes are not watched, skip this for now. Noted in README');
+        // $this->markTestSkipped('There is a bug when reassigning arrays to spruce where changes are not watched, skip this for now. Noted in README');
 
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, ArraysComponent::class)
