@@ -143,7 +143,7 @@ export const elEntangle = {
     },
 
     getStoreProperty(property) {
-        return this.store[property]
+        return this.cloneValue(this.store[property])
     },
 
     setLivewireProperty(property, value, isDeferred) {
@@ -173,10 +173,10 @@ export const elEntangle = {
     registerSpruceWatcher(storeProperty, livewireProperty, isDeferred) {
         Spruce.watch(this.storeName + '.' + storeProperty, (value) => {
             // Check if new Spruce value and Livewire are the same and if so, then return to prevent a circular dependancy with other watcher.
-            if (this.valuesAreEqual(value, this.getLivewireProperty(livewireProperty))) return
+            if (this.valuesAreEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) return
 
             //Update Livewire property
-            this.setLivewireProperty(livewireProperty, value, isDeferred)
+            this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty), isDeferred)
         })
     },
 
