@@ -2,9 +2,9 @@
 
 namespace Sprucewire\Tests\Browser;
 
-use LivewireDusk\TestCase as LivewireDuskTestCase;
+use LivewireDuskTestbench\TestCase as LivewireDuskTestbenchTestCase;
 
-class TestCase extends LivewireDuskTestCase
+class TestCase extends LivewireDuskTestbenchTestCase
 {
     public $packageProviders = [
         SprucewireTestServiceProvider::class,
