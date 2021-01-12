@@ -8,14 +8,8 @@
             "email": "josh@hitsystems.com.au"
         }
     ],
-    "repositories": {
-        "livewire-dusk-testbench": {
-            "type": "vcs",
-            "url": "https://github.com/joshhanley/livewire-dusk-testbench"
-        }
-    },
     "require-dev": {
-        "joshhanley/livewire-dusk-testbench": "^0.1",
+        "joshhanley/livewire-dusk-testbench": "^0.1.0",
         "livewire/livewire": "^2.3"
     },
     "autoload-dev": {
