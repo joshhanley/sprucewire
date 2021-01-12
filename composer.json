@@ -15,7 +15,7 @@
         }
     },
     "require-dev": {
-        "joshhanley/livewire-dusk-testbench": "dev-main",
+        "joshhanley/livewire-dusk-testbench": "^0.1",
         "livewire/livewire": "^2.3"
     },
     "autoload-dev": {
