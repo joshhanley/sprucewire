@@ -38,10 +38,16 @@ class CollectionsTest extends TestCase
                     ->waitForLivewire()->click('@livewire-remove')
                     ->assertSeeInOrder('@livewire-collection-output', [1,2,3,4,5])
                     ->assertSeeInOrder('@spruce-collection-output', [1,2,3,4,5])
+                    ->assertDontSeeIn('@livewire-collection-output', 6)
+                    ->assertDontSeeIn('@spruce-collection-output', 6)
                     ->waitForLivewire()->click('@livewire-remove')
                     ->waitForLivewire()->click('@livewire-remove')
                     ->assertSeeInOrder('@livewire-collection-output', [1,2,3])
                     ->assertSeeInOrder('@spruce-collection-output', [1,2,3])
+                    ->assertDontSeeIn('@livewire-collection-output', 5)
+                    ->assertDontSeeIn('@spruce-collection-output', 5)
+                    ->assertDontSeeIn('@livewire-collection-output', 4)
+                    ->assertDontSeeIn('@spruce-collection-output', 4)
                     ;
         });
     }
@@ -67,6 +73,8 @@ class CollectionsTest extends TestCase
                     ->waitForLivewire()->click('@spruce-remove')
                     ->assertSeeInOrder('@livewire-collection-output', [1,2,3,4,5])
                     ->assertSeeInOrder('@spruce-collection-output', [1,2,3,4,5])
+                    ->assertDontSeeIn('@livewire-collection-output', 6)
+                    ->assertDontSeeIn('@spruce-collection-output', 6)
                     ->waitForLivewire()->click('@spruce-add')
                     ->waitForLivewire()->click('@spruce-add')
                     ->assertSeeInOrder('@livewire-collection-output', [1,2,3,4,5,6,7])
