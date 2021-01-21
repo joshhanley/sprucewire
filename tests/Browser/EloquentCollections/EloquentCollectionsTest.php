@@ -77,4 +77,22 @@ class EloquentCollectionsTest extends TestCase
     {
         $this->markTestSkipped('Currently not supported as could cause a security issue');
     }
+
+    /** @test */
+    public function it_can_modify_individual_eloquent_collection_model_properties_from_livewire()
+    {
+        $this->markTestSkipped('Not sure if this is needed, leaving blank here for now.');
+    }
+
+    /** @test */
+    public function it_can_modify_individual_eloquent_collection_model_properties_from_spruce()
+    {
+        $this->markTestSkipped('Not sure if this is needed, leaving blank here for now.');
+    }
+
+    /** @test */
+    public function it_can_modify_individual_eloquent_collection_model_properties_alternating()
+    {
+        $this->markTestSkipped('Not sure if this is needed, leaving blank here for now.');
+    }
 }
