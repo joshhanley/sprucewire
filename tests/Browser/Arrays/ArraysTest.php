@@ -20,7 +20,7 @@ class ArraysTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_and_remove_array_elements()
+    public function it_can_add_and_remove_array_elements_from_livewire()
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, ArraysComponent::class)
@@ -71,6 +71,60 @@ class ArraysTest extends TestCase
                     ->waitForLivewire()->click('@spruce-add')
                     ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5,6,7])
                     ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5,6,7])
+                    ;
+        });
+    }
+
+    /** @test */
+    public function it_can_add_and_remove_array_elements_alternating()
+    {
+        $this->browse(function (Browser $browser) {
+            Livewire::visit($browser, ArraysComponent::class)
+                    // Check all starting values are ok
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4])
+
+                    // Test changing arrays swapping back and forth
+                    ->waitForLivewire()->click('@livewire-add')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5])
+                    ->waitForLivewire()->click('@spruce-add')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5,6])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5,6])
+                    ->waitForLivewire()->click('@spruce-remove')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5])
+                    ->assertDontSeeIn('@livewire-array-output', 6)
+                    ->assertDontSeeIn('@spruce-array-output', 6)
+                    ->waitForLivewire()->click('@livewire-remove')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4])
+                    ->assertDontSeeIn('@livewire-array-output', 5)
+                    ->assertDontSeeIn('@spruce-array-output', 5)
+                    ->waitForLivewire()->click('@spruce-add')
+                    ->waitForLivewire()->click('@spruce-add')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5,6])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5,6])
+                    ->waitForLivewire()->click('@livewire-add')
+                    ->waitForLivewire()->click('@livewire-add')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5,6,7,8])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5,6,7,8])
+                    ->waitForLivewire()->click('@livewire-remove')
+                    ->waitForLivewire()->click('@livewire-remove')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5,6])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5,6])
+                    ->assertDontSeeIn('@livewire-array-output', 8)
+                    ->assertDontSeeIn('@spruce-array-output', 8)
+                    ->assertDontSeeIn('@livewire-array-output', 7)
+                    ->assertDontSeeIn('@spruce-array-output', 7)
+                    ->waitForLivewire()->click('@spruce-remove')
+                    ->waitForLivewire()->click('@spruce-remove')
+                    ->assertSeeInOrder('@livewire-array-output', [1,2,3,4])
+                    ->assertSeeInOrder('@spruce-array-output', [1,2,3,4])
+                    ->assertDontSeeIn('@livewire-array-output', 6)
+                    ->assertDontSeeIn('@spruce-array-output', 6)
+                    ->assertDontSeeIn('@livewire-array-output', 5)
+                    ->assertDontSeeIn('@spruce-array-output', 5)
                     ;
         });
     }
