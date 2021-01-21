@@ -19,7 +19,9 @@ class AssociativeCollectionsComponent extends Component
 
     public function add()
     {
-        $this->collectionProp->push($this->collectionProp->count() + 1);
+        $this->collectionProp = $this->collectionProp->merge([
+            'sample' => 'test'
+        ]);
     }
 
     public function remove()
@@ -38,6 +40,8 @@ class AssociativeCollectionsComponent extends Component
                 <input dusk="livewire-career-input" type="text" wire:model="collectionProp.career">
                 <input dusk="livewire-interest-input" type="text" wire:model="collectionProp.interest">
 
+                <button dusk="livewire-add" type="button" wire:click="add">Add</button>
+                <button dusk="livewire-remove" type="button" wire:click="remove">Remove</button>
                 <ul dusk="livewire-collection-output">
                     @foreach($collectionProp as $key => $collectionItem)
                         <li wire:key="collection-{{ $key }}">{{ $key }} - {{ $collectionItem }}</li>

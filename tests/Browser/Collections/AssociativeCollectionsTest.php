@@ -9,7 +9,7 @@ use Sprucewire\Tests\Browser\TestCase;
 class AssociativeCollectionsTest extends TestCase
 {
     /** @test */
-    public function it_displays_correct_collection_output_for_both()
+    public function it_displays_correct_associative_collection_output_for_both()
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, AssociativeCollectionsComponent::class)
@@ -20,7 +20,41 @@ class AssociativeCollectionsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_modify_individual_collection_elements_from_livewire()
+    public function it_can_add_and_remove_associative_collection_items_from_livewire()
+    {
+        $this->browse(function (Browser $browser) {
+            Livewire::visit($browser, AssociativeCollectionsComponent::class)
+                    // Check all starting values are ok
+                    ->assertSeeInOrder('@livewire-collection-output', ['bob', 'dev', 'livewire'])
+                    ->assertSeeInOrder('@spruce-collection-output', ['bob', 'dev', 'livewire'])
+
+                    // Test changing collections from Livewire
+                    ->waitForLivewire()->click('@livewire-add')
+                    ->assertSeeInOrder('@livewire-collection-output', ['bob', 'dev', 'livewire', 'test'])
+                    ->assertSeeInOrder('@spruce-collection-output', ['bob', 'dev', 'livewire', 'test'])
+                    ->waitForLivewire()->click('@livewire-remove')
+                    ->assertSeeInOrder('@livewire-collection-output', ['bob', 'dev', 'livewire'])
+                    ->assertSeeInOrder('@spruce-collection-output', ['bob', 'dev', 'livewire'])
+                    ->assertDontSeeIn('@livewire-collection-output', 'test')
+                    ->assertDontSeeIn('@spruce-collection-output', 'test')
+                    ;
+        });
+    }
+
+    /** @test */
+    public function it_can_add_and_remove_associative_collection_items_from_spruce()
+    {
+        $this->markTestSkipped('There is a bug when reassigning collections from spruce where it becomes an array');
+    }
+
+    /** @test */
+    public function it_can_add_and_remove_associative_collection_items_alternating()
+    {
+        $this->markTestSkipped('There is a bug when reassigning collections from spruce where it becomes an array');
+    }
+
+    /** @test */
+    public function it_can_modify_individual_associative_collection_elements_from_livewire()
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, AssociativeCollectionsComponent::class)
@@ -40,7 +74,7 @@ class AssociativeCollectionsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_modify_individual_collection_elements_from_spruce()
+    public function it_can_modify_individual_associative_collection_elements_from_spruce()
     {
         // $this->markTestSkipped('There is a bug when reassigning arrays to spruce where changes are not watched, skip this for now. Noted in README');
 
@@ -62,7 +96,7 @@ class AssociativeCollectionsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_modify_individual_collection_elements_alternating()
+    public function it_can_modify_individual_associative_collection_elements_alternating()
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, AssociativeCollectionsComponent::class)
