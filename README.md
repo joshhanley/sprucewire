@@ -2,7 +2,9 @@
 
 # Sprucewire
 
-An adapter for Livewire and Spruce enabling them to be entangled.
+Sprucewire is adapter between Spruce and Livewire, that enables them to be entangled.
+
+It brings the power of Spruce's global state to Livewire components to enable you to seemlessly share data between Livewire components and keep their state in sync.
 
 The code was developed by [Caleb Porzio](https://github.com/calebporzio) for using @entangle between Livewire and Alpine, and packaged up by [Josh Hanley](https://github.com/joshhanley) for use with Spruce (by [Ryan Chandler](https://github.com/ryangjchandler)).
 
@@ -11,6 +13,7 @@ The code was developed by [Caleb Porzio](https://github.com/calebporzio) for usi
 It's recommended that you read the documentation of these packages before going through this document:
 
 - [Livewire](https://laravel-livewire.com/docs)
+- [Alpine](https://github.com/alpinejs/alpine)
 - [Spruce](https://docs.ryangjchandler.co.uk/spruce)
 
 To use this package you need to:
@@ -45,7 +48,7 @@ npm install @joshhanley/sprucewire
 Then add this to your javascript file underneath Spruce (but before Alpine)
 
 ```js
-import '@joshhanleu/sprucewire'
+import '@joshhanley/sprucewire'
 ```
 
 ## Usage
