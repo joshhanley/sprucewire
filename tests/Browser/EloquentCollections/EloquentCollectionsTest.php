@@ -52,10 +52,16 @@ class EloquentCollectionsTest extends TestCase
                     ->waitForLivewire()->click('@livewire-remove')
                     ->assertSeeInOrder('@livewire-collection-output', ['test1', 'test2', 'test3', 'test4'])
                     ->assertSeeInOrder('@spruce-collection-output', ['test1', 'test2', 'test3', 'test4'])
+                    ->assertDontSeeIn('@livewire-collection-output', 'test5')
+                    ->assertDontSeeIn('@spruce-collection-output', 'test5')
                     ->waitForLivewire()->click('@livewire-remove')
                     ->waitForLivewire()->click('@livewire-remove')
                     ->assertSeeInOrder('@livewire-collection-output', ['test1', 'test2'])
                     ->assertSeeInOrder('@spruce-collection-output', ['test1', 'test2'])
+                    ->assertDontSeeIn('@livewire-collection-output', 'test4')
+                    ->assertDontSeeIn('@spruce-collection-output', 'test4')
+                    ->assertDontSeeIn('@livewire-collection-output', 'test3')
+                    ->assertDontSeeIn('@spruce-collection-output', 'test3')
                     ;
         });
     }
