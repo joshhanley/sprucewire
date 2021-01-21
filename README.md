@@ -6,7 +6,10 @@ Sprucewire is adapter between Spruce and Livewire, that enables them to be entan
 
 It brings the power of Spruce's global state to Livewire to enable you to seemlessly share data between Livewire components and keep their state in sync.
 
-The code was developed by [Caleb Porzio](https://github.com/calebporzio) for using @entangle between Livewire and Alpine, and packaged up by [Josh Hanley](https://github.com/joshhanley) for use with Spruce (by [Ryan Chandler](https://github.com/ryangjchandler)).
+- [Sprucewire Video]()
+- [Demo App](https://sprucewire.joshhanley.com.au/)
+
+The code was inspired by Livewire's @entangle, that was developed by [Caleb Porzio](https://github.com/calebporzio) for use between Livewire and Alpine. It was packaged up by [Josh Hanley](https://github.com/joshhanley) and adapted  for use with Spruce (by [Ryan Chandler](https://github.com/ryangjchandler)).
 
 ## Getting Started
 
@@ -143,6 +146,12 @@ Entangling scalar properties or individual properties of a model property works.
 There is a bug when binding arrays and collections, where if you try to add or remove from Spruce end, changes aren't replicated in Livewire.
 
 Collections and arrays work fine if changed from the Livewire end though.
+
+## Demo App
+
+There is a demo of Sprucewire in action at https://sprucewire.joshhanley.com.au/.
+
+Source code for the demo can be found here https://github.com/joshhanley/sprucewire-demo/.
 
 ## Troubleshooting
 
