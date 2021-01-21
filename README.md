@@ -4,7 +4,7 @@
 
 Sprucewire is adapter between Spruce and Livewire, that enables them to be entangled.
 
-It brings the power of Spruce's global state to Livewire to enable you to seemlessly share data between Livewire components and keep their state in sync.
+It brings the power of Spruce's global state to Livewire so you can seamlessly share data between Livewire components and keep their state in sync.
 
 - [Sprucewire Video]()
 - [Demo App](https://sprucewire.joshhanley.com.au/)
