@@ -50,14 +50,25 @@ import '@joshhanleu/sprucewire'
 
 ## Usage
 
+To use Sprucewire, you need to:
+
+1. Setup stores (using Sprucewire)
+2. Use stores (as per Spruce docs)
+
+### Setup Stores
 Sprucewire has two different ways to setup and make use of a Spruce store:
 
-- Register Store
-- Load Store
+- [Register Store](#register-store)
+- [Load Store](#load-store)
 
-The method you should use changes depending on whether you are accessing the store in a parent Livewire component or in a child Livewire component.
+The method you should use changes depending on whether you are accessing the store in a parent Livewire component or in a child Livewire component (see below for details).
 
-### Register Store
+### Use Stores
+Once the Store is registered/ loaded using Sprucewire, the rest of using these stores is just the normal Spruce methods. See ["accessing a store from Alpine"](https://docs.ryangjchandler.co.uk/spruce/stores#accessing-a-store-from-alpine).
+
+---
+
+## Register Store
 
 Register store should be used in any parent Livewire component (like a full page component) where you want it to setup and configure the store and seed the stores data with it's initial values.
 
@@ -91,7 +102,7 @@ Each key/value pair is defined like this:
 
 You can also append `.defer` if you want the Livewire property changes to be deferred.
 
-### Load Store
+## Load Store
 
 Load store should be used in any child components that you just want to access and make use of the store.
 
@@ -114,14 +125,13 @@ To load a store, similar to registering a store, you setup Alpine in your child 
 
 The parameters of load store are the same as in register store with the same object setup.
 
-#### :bulb: **Property Names Note**
+### :bulb: **Property Names Note**
 
 In this example above, a different Livewire property `random` has been mapped to Spruce's property `sample`.
 
 Where as the register store example the Livewire property `sample` was mapped to Spruce's property `sample`.
 
 This demonstrates that you can have different property names in your Livewire components, but as long as the Spruce store property name is the same, then it will still all work.
-
 
 ## Limitations
 
