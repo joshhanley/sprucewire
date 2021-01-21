@@ -1,4 +1,4 @@
-![Image of Sprucewire](https://github.com/joshhanley/sprucewire/blob/main/art/Sprucewire-Logo.png)
+![Image of Sprucewire](https://github.com/joshhanley/sprucewire/blob/runLocalSpruce/art/Sprucewire-Logo.png)
 
 # Sprucewire
 
