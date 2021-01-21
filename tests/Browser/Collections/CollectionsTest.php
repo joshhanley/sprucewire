@@ -20,7 +20,7 @@ class CollectionsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_and_remove_collection_elements_from_livewire()
+    public function it_can_add_and_remove_collection_items_from_livewire()
     {
         $this->browse(function (Browser $browser) {
             Livewire::visit($browser, CollectionsComponent::class)
@@ -47,7 +47,7 @@ class CollectionsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_and_remove_collection_elements_from_spruce()
+    public function it_can_add_and_remove_collection_items_from_spruce()
     {
         // $this->markTestSkipped('There is a bug when reassigning arrays to spruce where changes are not watched, skip this for now. Noted in README');
 
@@ -71,13 +71,12 @@ class CollectionsTest extends TestCase
                     ->waitForLivewire()->click('@spruce-add')
                     ->assertSeeInOrder('@livewire-collection-output', [1,2,3,4,5,6,7])
                     ->assertSeeInOrder('@spruce-collection-output', [1,2,3,4,5,6,7])
-
                     ;
         });
     }
 
     /** @test */
-    public function it_can_add_and_remove_collection_elements_alternating()
+    public function it_can_add_and_remove_collection_items_alternating()
     {
         $this->markTestSkipped('There is a bug when reassigning collections from spruce where it becomes an array');
 
@@ -128,7 +127,6 @@ class CollectionsTest extends TestCase
                     ->assertDontSeeIn('@spruce-collection-output', 6)
                     ->assertDontSeeIn('@livewire-collection-output', 5)
                     ->assertDontSeeIn('@spruce-collection-output', 5)
-
                     ;
         });
     }
