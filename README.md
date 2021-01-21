@@ -1,10 +1,10 @@
-![Image of Sprucewire](https://github.com/joshhanley/sprucewire/blob/main/art/Sprucewire.png)
+![Image of Sprucewire](https://github.com/joshhanley/sprucewire/blob/main/art/Sprucewire-Logo.png)
 
 # Sprucewire
 
 Sprucewire is adapter between Spruce and Livewire, that enables them to be entangled.
 
-It brings the power of Spruce's global state to Livewire components to enable you to seemlessly share data between Livewire components and keep their state in sync.
+It brings the power of Spruce's global state to Livewire to enable you to seemlessly share data between Livewire components and keep their state in sync.
 
 The code was developed by [Caleb Porzio](https://github.com/calebporzio) for using @entangle between Livewire and Alpine, and packaged up by [Josh Hanley](https://github.com/joshhanley) for use with Spruce (by [Ryan Chandler](https://github.com/ryangjchandler)).
 
