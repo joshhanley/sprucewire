@@ -38,10 +38,16 @@ class ArraysTest extends TestCase
                     ->waitForLivewire()->click('@livewire-remove')
                     ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5])
                     ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5])
+                    ->assertDontSeeIn('@livewire-array-output', 6)
+                    ->assertDontSeeIn('@spruce-array-output', 6)
                     ->waitForLivewire()->click('@livewire-remove')
                     ->waitForLivewire()->click('@livewire-remove')
                     ->assertSeeInOrder('@livewire-array-output', [1,2,3])
                     ->assertSeeInOrder('@spruce-array-output', [1,2,3])
+                    ->assertDontSeeIn('@livewire-array-output', 5)
+                    ->assertDontSeeIn('@spruce-array-output', 5)
+                    ->assertDontSeeIn('@livewire-array-output', 4)
+                    ->assertDontSeeIn('@spruce-array-output', 4)
                     ;
         });
     }
@@ -67,6 +73,8 @@ class ArraysTest extends TestCase
                     ->waitForLivewire()->click('@spruce-remove')
                     ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5])
                     ->assertSeeInOrder('@spruce-array-output', [1,2,3,4,5])
+                    ->assertDontSeeIn('@livewire-array-output', 6)
+                    ->assertDontSeeIn('@spruce-array-output', 6)
                     ->waitForLivewire()->click('@spruce-add')
                     ->waitForLivewire()->click('@spruce-add')
                     ->assertSeeInOrder('@livewire-array-output', [1,2,3,4,5,6,7])
