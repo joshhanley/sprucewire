@@ -36,6 +36,10 @@ class AssociativeArraysTest extends TestCase
                     ->waitForLivewire()->click('@livewire-remove')
                     ->assertSeeInOrder('@livewire-array-output', ['greg', 'designer'])
                     ->assertSeeInOrder('@spruce-array-output', ['greg', 'designer'])
+                    ->assertDontSeeIn('@livewire-array-output', 'other')
+                    ->assertDontSeeIn('@spruce-array-output', 'other')
+                    ->assertDontSeeIn('@livewire-array-output', 'tailwind')
+                    ->assertDontSeeIn('@spruce-array-output', 'tailwind')
                     ;
         });
     }
@@ -58,6 +62,8 @@ class AssociativeArraysTest extends TestCase
                     ->waitForLivewire()->click('@spruce-remove')
                     ->assertSeeInOrder('@livewire-array-output', ['greg', 'designer', 'tailwind'])
                     ->assertSeeInOrder('@spruce-array-output', ['greg', 'designer', 'tailwind'])
+                    ->assertDontSeeIn('@livewire-array-output', 'name')
+                    ->assertDontSeeIn('@spruce-array-output', 'name')
                     ;
         });
     }
