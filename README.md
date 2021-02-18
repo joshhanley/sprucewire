@@ -21,9 +21,9 @@ It's recommended that you read the documentation of these packages before going 
 
 To use this package you need to:
 
-- [Install and configure Livewire](https://laravel-livewire.com/docs/2.x/installation)
-- [Install Alpine](https://github.com/alpinejs/alpine#install)
-- [Install Spruce](https://docs.ryangjchandler.co.uk/spruce/installation) (but don't setup a store)
+- [Install and configure Livewire](https://laravel-livewire.com/docs/2.x/installation) ^2.3.6
+- [Install Alpine](https://github.com/alpinejs/alpine#install) ^2.7.3
+- [Install Spruce](https://docs.ryangjchandler.co.uk/spruce/installation) ^2.6.3 (but don't setup a store)
 
 ## Installation
 
