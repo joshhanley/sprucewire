@@ -81,7 +81,6 @@ class SubComponentsTest extends TestCase
         });
     }
 
-
     /** @test */
     public function it_can_defer_shared_state_between_components()
     {
@@ -140,6 +139,24 @@ class SubComponentsTest extends TestCase
                     ->assertSeeIn('@spruce-parent-name-output', 'Livewire')
                     ->assertSeeIn('@livewire-child-name-output', 'Livewire')
                     ->assertSeeIn('@spruce-child-name-output', 'Livewire')
+                    ;
+        });
+    }
+
+    /** @test */
+    public function sub_components_can_add_properties_to_spruce_store()
+    {
+        $this->browse(function (Browser $browser) {
+            Livewire::visit($browser, ParentComponent::class)
+                    // Check all starting values are ok
+                    ->assertSeeIn('@livewire-parent-name-output', 'Jim')
+                    ->assertSeeIn('@spruce-parent-name-output', 'Jim')
+                    ->assertSeeIn('@livewire-child-name-output', 'Jim')
+                    ->assertSeeIn('@spruce-child-name-output', 'Jim')
+
+                    // Check child component unique property showing up
+                    ->assertSeeIn('@livewire-child-unique-output', 'Something Unique')
+                    ->assertSeeIn('@spruce-child-unique-output', 'Something Unique')
                     ;
         });
     }

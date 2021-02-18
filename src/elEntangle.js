@@ -52,17 +52,20 @@ export const elEntangle = {
             // Check if we are entangling value
             if (this.isNotEntangleObject(entangleObject)) return
 
-            // Check if store property exists
-            this.ensureStorePropertyExists(storeProperty)
-
             let livewireProperty = entangleObject.livewireEntangle
             let isDeferred = entangleObject.isDeferred
 
-            // Set initial value of Livewire property to Spruce store properties value if they are different
-            // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
-            if (this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
+            // Set initial property only if they are different
+            if (this.storePropertyExists(storeProperty) && this.valuesAreNotEqual(this.getStoreProperty(storeProperty), this.getLivewireProperty(livewireProperty))) {
+                // Set initial value of Livewire property to Spruce store properties value if store property exists
+                // This ensures that if Livewire has set the property on multiple components to be the same that there isn't a request back to the server
                 this.setLivewireProperty(livewireProperty, this.getStoreProperty(storeProperty), isDeferred)
+            } else {
+                // Set initial value of spruce store property to Livewire properties value if store property does not exist
+                this.setStoreProperty(storeProperty, this.getLivewireProperty(livewireProperty))
             }
+
+            console.log(this.store)
 
             // Register spruce watcher
             this.registerSpruceWatcher(storeProperty, livewireProperty, isDeferred)
@@ -134,7 +137,8 @@ export const elEntangle = {
         return !this.isEntangleObject(value)
     },
 
-    ensureStorePropertyExists(property) {
+    storePropertyExists(property) {
+        return !!this.store[property]
         if (!this.store[property]) throw new Error('[Sprucewire] Spruce store "' + this.storeName + '" does not have property "' + property + '".')
     },
 

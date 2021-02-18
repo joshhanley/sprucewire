@@ -7,6 +7,7 @@ use Livewire\Component;
 class ChildComponent extends Component
 {
     public $name;
+    public $unique = 'Something Unique';
 
     public function render()
     {
@@ -20,11 +21,16 @@ class ChildComponent extends Component
                 <div>
                     <span dusk="livewire-child-name-output">{{ $name }}</span>
                 </div>
+
+                <div>
+                    <span dusk="livewire-child-unique-output">{{ $unique }}</span>
+                </div>
             </div>
 
             <div x-data x-init="
                 $sprucewire.loadStore('main', {
-                    name: $sprucewire.entangle('name')
+                    name: $sprucewire.entangle('name'),
+                    unique: $sprucewire.entangle('unique'),
                 })
             ">
                 <h1>Spruce Child</h1>
@@ -33,6 +39,10 @@ class ChildComponent extends Component
 
                 <div>
                     <span dusk="spruce-child-name-output" x-text="$store.main.name"></span>
+                </div>
+
+                <div>
+                    <span dusk="spruce-child-unique-output" x-text="$store.main.unique"></span>
                 </div>
             </div>
         </div>
