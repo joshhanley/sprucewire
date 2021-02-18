@@ -139,14 +139,6 @@ Where as the register store example the Livewire property `sample` was mapped to
 
 This demonstrates that you can have different property names in your Livewire components, but as long as the Spruce store property name is the same, then it will still all work.
 
-## Limitations
-
-Entangling scalar properties or individual properties of a model property works.
-
-There is a bug when binding arrays and collections, where if you try to add or remove from Spruce end, changes aren't replicated in Livewire.
-
-Collections and arrays work fine if changed from the Livewire end though.
-
 ## Demo App
 
 There is a demo of Sprucewire in action at https://sprucewire.joshhanley.com.au/.
@@ -155,7 +147,7 @@ Source code for the demo can be found here https://github.com/joshhanley/sprucew
 
 ## Troubleshooting
 
-**:exclamation: Make sure child components all have a key set**
+**:exclamation: Make sure Livewire child components all have a key set**
 
 ## Known Limitations
 
