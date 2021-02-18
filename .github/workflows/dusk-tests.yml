@@ -37,6 +37,10 @@ jobs:
         
     - name: Install Composer dependencies
       run: composer update --prefer-dist --no-interaction --no-suggest
+      
+      
+    - name: Create Database
+      run: touch database/database.sqlite
     
     - name: Setup dusk/chrome
       run: vendor/bin/dusk-updater detect --no-interaction
