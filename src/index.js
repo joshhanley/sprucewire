@@ -2,18 +2,13 @@ import { elEntangle } from './elEntangle'
 
 const Sprucewire = {
     start() {
-        console.log('start')
         this.attach()
     },
 
     attach() {
         this.checkDependencies()
 
-        const self = this
-
         window.Alpine.addMagicProperty('sprucewire', (el) => {
-            console.log('Sprucewire')
-
             return this.getElEntangle(el)
         })
     },

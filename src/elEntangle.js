@@ -65,8 +65,6 @@ export const elEntangle = {
                 this.setStoreProperty(storeProperty, this.getLivewireProperty(livewireProperty))
             }
 
-            console.log(this.store)
-
             // Register spruce watcher
             this.registerSpruceWatcher(storeProperty, livewireProperty, isDeferred)
 
