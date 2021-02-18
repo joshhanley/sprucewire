@@ -156,3 +156,10 @@ Source code for the demo can be found here https://github.com/joshhanley/sprucew
 ## Troubleshooting
 
 **:exclamation: Make sure child components all have a key set**
+
+## Known Limitations
+
+When entangling the following data types, certain modifications can't be done from Spruce, so use Livewire:
+- Associative arrays: removing an array item by name won't work
+- Collections: Making changes converts it from a collection to an array on Livewire end
+- Eloquent collections: adding/removing items won't work
