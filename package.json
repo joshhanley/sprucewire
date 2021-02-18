@@ -1,10 +1,10 @@
 {
   "name": "@joshhanley/sprucewire",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "An adapter enabling Livewire and Spruce to be entangled",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joshhanley/sprucewire.git"
+    "url": "git@github.com/joshhanley/sprucewire"
   },
   "author": "Josh Hanley",
   "license": "MIT",
@@ -17,7 +17,12 @@
     "build": "microbundle",
     "watch": "microbundle watch"
   },
+  "dependencies": {
+    "@ryangjchandler/spruce": "^2.6.3",
+    "alpinejs": "^2.7.3"
+  },
   "devDependencies": {
+    "@babel/preset-env": "^7.12.11",
     "microbundle": "^0.13.0"
   }
 }
