@@ -23,7 +23,7 @@ To use this package you need to:
 
 - [Install and configure Livewire](https://laravel-livewire.com/docs/2.x/installation) ^2.3.6
 - [Install Alpine](https://github.com/alpinejs/alpine#install) ^2.7.3
-- [Install Spruce](https://docs.ryangjchandler.co.uk/spruce/installation) ^2.6.3 (but don't setup a store)
+- [Install Spruce](https://spruce.ryangjchandler.co.uk/installation) ^2.6.3 (but don't setup a store)
 
 ## Installation
 
@@ -34,7 +34,7 @@ To install, you can use either:
 
 ### CDN
 
-To install sprucewire via CDN, include the following script tag to the end of your `<body>` after where you have added Spruce (see [Spruce Installation](https://docs.ryangjchandler.co.uk/spruce/installation#npm-recommended)):
+To install sprucewire via CDN, include the following script tag to the end of your `<body>` after where you have added Spruce (see [Spruce Installation](https://spruce.ryangjchandler.co.uk/installation#npm-recommended)):
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@joshhanley/sprucewire@0.x.x/dist/sprucewire.umd.js"></script>
@@ -70,7 +70,7 @@ Sprucewire has two different ways to setup and make use of a Spruce store:
 The method you should use changes depending on whether you are accessing the store in a parent Livewire component or in a child Livewire component (see below for details).
 
 ### Use Stores
-Once the Store is registered/ loaded using Sprucewire, the rest of using these stores is just the normal Spruce methods. See ["accessing a store from Alpine"](https://docs.ryangjchandler.co.uk/spruce/stores#accessing-a-store-from-alpine).
+Once the Store is registered/ loaded using Sprucewire, the rest of using these stores is just the normal Spruce methods. See ["accessing a store from Alpine"](https://spruce.ryangjchandler.co.uk/stores#accessing-a-store-from-alpine).
 
 ---
 
