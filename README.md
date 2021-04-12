@@ -17,7 +17,7 @@ It's recommended that you read the documentation of these packages before going 
 
 - [Livewire](https://laravel-livewire.com/docs)
 - [Alpine](https://github.com/alpinejs/alpine)
-- [Spruce](https://docs.ryangjchandler.co.uk/spruce)
+- [Spruce](https://spruce.ryangjchandler.co.uk/)
 
 To use this package you need to:
 
