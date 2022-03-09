@@ -25,6 +25,8 @@ To use this package you need to:
 - [Install Alpine](https://github.com/alpinejs/alpine#install) ^2.7.3
 - [Install Spruce](https://spruce.ryangjchandler.co.uk/installation) ^2.6.3 (but don't setup a store)
 
+**Note** Spruce doesn't not support Alpine V3, as such, neither does Sprucewire as it is an extension of Spruce.
+
 ## Installation
 
 To install, you can use either:
