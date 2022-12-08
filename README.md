@@ -7,7 +7,6 @@ Sprucewire is adapter between Spruce and Livewire, that enables them to be entan
 It brings the power of Spruce's global state to Livewire so you can seamlessly share data between Livewire components and keep their state in sync.
 
 - [Sprucewire Video](https://www.youtube.com/watch?v=Etwv6jW0Z_w)
-- [Demo App](https://sprucewire.joshhanley.com.au/)
 
 The code was inspired by Livewire's @entangle, that was developed by [Caleb Porzio](https://github.com/calebporzio) for use between Livewire and Alpine. It was packaged up by [Josh Hanley](https://github.com/joshhanley) and adapted  for use with Spruce (by [Ryan Chandler](https://github.com/ryangjchandler)).
 
@@ -144,8 +143,6 @@ Where as the register store example the Livewire property `sample` was mapped to
 This demonstrates that you can have different property names in your Livewire components, but as long as the Spruce store property name is the same, then it will still all work.
 
 ## Demo App
-
-There is a demo of Sprucewire in action at https://sprucewire.joshhanley.com.au/.
 
 Source code for the demo can be found here https://github.com/joshhanley/sprucewire-demo/.
 
